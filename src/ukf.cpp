@@ -94,7 +94,6 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
       default:
         assert(0);
     }
-    cout << "Initial state: " << x_ << endl;
     previous_timestamp_ = meas_package.timestamp_;
     is_initialized_ = true;
     return;
@@ -124,8 +123,6 @@ void UKF::Prediction(double delta_t) {
   vector, x_. Predict sigma points, the state, and the state covariance
   matrix.
   */
-  cout << "Prediction, delta_t = " << delta_t << endl;
-
   // Augmentation
   // create augmented mean state
   VectorXd x_aug = VectorXd(n_aug_);
@@ -191,7 +188,6 @@ void UKF::Prediction(double delta_t) {
   for (int i = 0; i < Xsig_pred_.cols(); ++i) {
     VectorXd x_diff = Xsig_pred_.col(i) - x_;
     // angle normalization
-    cout << "x_diff " << x_diff << endl;
     while (x_diff(3) > M_PI) x_diff(3) -= 2. * M_PI;
     while (x_diff(3) < -M_PI) x_diff(3) += 2. * M_PI;
     P_ += weights_(i) * x_diff * x_diff.transpose();
